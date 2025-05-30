@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Evento - Tesorería River Plate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/img/river-logo.png" alt="River Plate" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuarios">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/eventos">Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/movimientos">Movimientos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><%= evento.nombre %></h2>
+            <div>
+                <a href="/eventos/movimientos/obtener/<%= evento.id %>" class="btn btn-primary me-2">Ver Movimientos</a>
+                <a href="/eventos/exportar/<%= evento.id %>" class="btn btn-success me-2">Exportar a Excel</a>
+                <a href="/eventos" class="btn btn-secondary">Volver</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Información del Evento</h5>
+                        <p class="card-text">
+                            <strong>Fecha:</strong> <%= evento.fecha %><br>
+                            <strong>Valor Unitario:</strong> $<%= evento.valorTotal %><br>
+                            <strong>Participantes:</strong> <%= evento.participantes.length %><br>
+                            <strong>Descripción:</strong> <%= evento.descripcion %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title">Participantes</h5>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoParticipanteModal">
+                                Agregar Participante
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Teléfono</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% 
+                                        // Calcular totales para la tabla
+                                        const totalPagado = evento.participantes.reduce((total, p) => total + (p.montoPagado || 0), 0);
+                                        const totalDebe = evento.participantes.reduce((total, p) => total + (p.montoTotal || 0), 0);
+                                        const base = totalDebe - totalPagado;
+                                    %>
+                                    <% evento.participantes.forEach(function(participante) { 
+                                        // Buscar los datos del usuario
+                                        const usuario = usuarios.find(u => u.id === participante.id);
+                                    %>
+                                        <tr>
+                                            <td><%= usuario ? usuario.nombre : participante.nombre %></td>
+                                            <td><%= usuario ? usuario.telefono : participante.telefono %></td>
+                                            <td>
+                                                <% 
+                                                    let estado = participante.estado || 'pendiente';
+                                                    let badgeClass = 'bg-warning';
+                                                    switch(estado) {
+                                                        case 'pagado':
+                                                            badgeClass = 'bg-success';
+                                                            break;
+                                                        case 'abonado':
+                                                            badgeClass = 'bg-info';
+                                                            break;
+                                                        default:
+                                                            badgeClass = 'bg-warning';
+                                                    }
+                                                %>
+                                                <span class="badge <%= badgeClass %>">
+                                                    <%= estado.charAt(0).toUpperCase() + estado.slice(1) %>
+                                                </span>
+                                                <br>
+                                                <small>
+                                                    $<%= participante.montoPagado.toLocaleString('es-AR') %> / $<%= participante.montoTotal.toLocaleString('es-AR') %>
+                                                </small>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="registrarPago('<%= participante.id %>')">
+                                                        <i class="fas fa-dollar-sign"></i> Pago
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-info" onclick="verHistorialPagos('<%= participante.id %>')">
+                                                        <i class="fas fa-history"></i> Historial
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="eliminarParticipante('<%= participante.id %>')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                    <a href="#" class="btn btn-sm btn-success" onclick="enviarWhatsApp('<%= participante.id %>')" style="background-color: #25D366; border-color: #25D366;">
+                                                        <i class="fab fa-whatsapp fa-lg"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-dark">
+                                        <td colspan="2"><strong>Totales</strong></td>
+                                        <td>
+                                            <span class="badge <%= totalPagado >= totalDebe ? 'bg-success' : 'bg-danger' %>">
+                                                Total Pagado: $<%= totalPagado.toLocaleString('es-AR') %>
+                                            </span>
+                                            <br>
+                                            <small>
+                                                Total a Pagar: $<%= totalDebe.toLocaleString('es-AR') %><br>
+                                                Base: $<%= Math.abs(base).toLocaleString('es-AR') %>
+                                            </small>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nuevo Participante -->
+    <div class="modal fade" id="nuevoParticipanteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Participante</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formNuevoParticipante">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Usuario</label>
+                            <select class="form-select" name="usuarioId" id="usuarioId" required>
+                                <% usuarios.forEach(function(usuario) { %>
+                                    <option value="<%= usuario.id %>"><%= usuario.nombre %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Monto a Pagar</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" 
+                                       class="form-control" 
+                                       name="monto" 
+                                       id="monto"
+                                       value="<%= evento.valorTotal %>"
+                                       required
+                                       min="1"
+                                       step="1">
+                                <span class="input-group-text formato-monto"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Registrar Pago -->
+    <div class="modal fade" id="modalRegistrarPago" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Pago</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formRegistrarPago">
+                    <div class="modal-body">
+                        <input type="hidden" name="participanteId" id="participanteId">
+                        <div class="mb-3">
+                            <label class="form-label">Fecha del Pago (opcional)</label>
+                            <input type="date" class="form-control" name="fecha">
+                            <small class="text-muted">Si no se especifica, se usará la fecha actual</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Monto del Pago</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" 
+                                       class="form-control" 
+                                       name="monto" 
+                                       required
+                                       min="1"
+                                       step="1">
+                                <span class="input-group-text formato-monto"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Observación</label>
+                            <textarea class="form-control" name="observacion" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Historial de Pagos -->
+    <div class="modal fade" id="historialPagosModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Historial de Pagos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                    <th>Observación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historialPagosBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Pago -->
+    <div class="modal fade" id="editarPagoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Pago</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formEditarPago">
+                    <input type="hidden" id="pagoId">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Fecha del Pago (opcional)</label>
+                            <input type="date" class="form-control" name="fecha">
+                            <small class="text-muted">Si no se especifica, se usará la fecha actual</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Monto del Pago</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" 
+                                       class="form-control" 
+                                       name="monto" 
+                                       required
+                                       min="1"
+                                       step="1">
+                                <span class="input-group-text formato-monto"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Observación</label>
+                            <textarea class="form-control" name="observacion" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nuevo Movimiento -->
+    <div class="modal fade" id="nuevoMovimientoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo Movimiento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Movimiento</label>
+                        <select class="form-select" id="tipoMovimiento" required>
+                            <option value="ingreso">Ingreso</option>
+                            <option value="egreso">Egreso</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Monto</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="montoMovimiento" required min="1" step="1">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcionMovimiento" rows="2" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarMovimiento('<%= evento.id %>')">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .btn-whatsapp {
+            background-color: #25D366 !important;
+            border-color: #25D366 !important;
+            color: white !important;
+        }
+        .btn-whatsapp:hover {
+            background-color: #128C7E !important;
+            border-color: #128C7E !important;
+        }
+        .btn-group {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let participanteSeleccionado = null;
+        const registrarPagoModal = new bootstrap.Modal(document.getElementById('modalRegistrarPago'));
+        const historialPagosModal = new bootstrap.Modal(document.getElementById('historialPagosModal'));
+        const editarPagoModal = new bootstrap.Modal(document.getElementById('editarPagoModal'));
+
+        // Datos globales
+        const participantesData = JSON.parse('<%- JSON.stringify(evento.participantes) %>');
+
+        function registrarPago(participanteId) {
+            const form = document.getElementById('formRegistrarPago');
+            form.querySelector('#participanteId').value = participanteId;
+            form.reset();
+            
+            // Establecer la fecha actual en el input de fecha
+            const fechaInput = form.querySelector('input[name="fecha"]');
+            const hoy = new Date().toISOString().split('T')[0];
+            fechaInput.value = hoy;
+            
+            registrarPagoModal.show();
+        }
+
+        function verHistorialPagos(participanteId) {
+            const participante = participantesData.find(p => p.id === participanteId);
+            const tbody = document.getElementById('historialPagosBody');
+            const table = tbody.closest('table');
+            let tfoot = table.querySelector('tfoot');
+            tbody.innerHTML = '';
+
+            if (tfoot) {
+                tfoot.remove();
+            }
+            
+            let granTotalPagado = 0;
+
+            if (participante && participante.pagos && participante.pagos.length > 0) {
+                participante.pagos.forEach(pago => {
+                    granTotalPagado += pago.monto;
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${new Date(pago.fecha).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
+                        <td>$${pago.monto.toLocaleString('es-AR')}</td>
+                        <td>${pago.observacion || '-'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-warning" onclick="editarPago('${pago.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="eliminarPago('${pago.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                tfoot = document.createElement('tfoot');
+                tfoot.innerHTML = `
+                    <tr class="table-dark">
+                        <td><strong>Total Pagado</strong></td>
+                        <td><strong>$${granTotalPagado.toLocaleString('es-AR')}</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                `;
+                table.appendChild(tfoot);
+            } else {
+                const tr = document.createElement('tr');
+                tr.innerHTML = '<td colspan="4" class="text-center">No hay pagos registrados</td>';
+                tbody.appendChild(tr);
+            }
+            
+            historialPagosModal.show();
+        }
+
+        function eliminarParticipante(participanteId) {
+            if (confirm('¿Está seguro de eliminar este participante?')) {
+                const url = `/eventos/participantes/eliminar/<%= evento.id %>/${participanteId}`;
+                console.log('Enviando solicitud a:', url);
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => {
+                    console.log('Respuesta recibida:', response);
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.message || 'Error al eliminar el participante');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Datos recibidos:', data);
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        throw new Error(data.message || 'Error al eliminar el participante');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert(error.message || 'Error al eliminar el participante');
+                });
+            }
+        }
+
+        // Formatear montos en los inputs numéricos
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function() {
+                const valor = this.value;
+                const formatoSpan = this.parentElement.querySelector('.formato-monto');
+                if (formatoSpan && !isNaN(valor) && valor !== '') {
+                    formatoSpan.textContent = Number(valor).toLocaleString('es-AR');
+                } else if (formatoSpan) {
+                    formatoSpan.textContent = '';
+                }
+            });
+        });
+
+        // Manejar el envío del formulario de pago
+        document.getElementById('formRegistrarPago').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const participanteId = this.querySelector('#participanteId').value;
+            const montoInput = this.querySelector('input[name="monto"]');
+            const fechaInput = this.querySelector('input[name="fecha"]');
+            const observacionInput = this.querySelector('textarea[name="observacion"]');
+            
+            const datos = {
+                monto: Number(montoInput.value),
+                fecha: fechaInput.value || new Date().toISOString().split('T')[0],
+                observacion: observacionInput.value || '',
+                participanteId: participanteId
+            };
+            
+            console.log('Enviando pago:', datos);
+            
+            fetch(`/eventos/pagos/<%= evento.id %>`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(datos)
+            })
+            .then(response => {
+                console.log('Respuesta del servidor:', response);
+                return response.json().then(data => {
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Error al procesar el pago');
+                    }
+                    return data;
+                });
+            })
+            .then(data => {
+                console.log('Datos recibidos:', data);
+                if (data.success) {
+                    alert('Pago registrado exitosamente');
+                    this.reset();
+                    registrarPagoModal.hide();
+                    window.location.reload();
+                } else {
+                    throw new Error(data.message || 'Error al procesar el pago');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message || 'Error al procesar el pago');
+            });
+        });
+
+        // Trigger el evento input en los campos numéricos al cargar para mostrar el formato
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.dispatchEvent(new Event('input'));
+        });
+
+        function formatearMonto(input) {
+            let valor = input.value.replace(/[^\d]/g, '');
+            if (valor) {
+                valor = parseInt(valor).toLocaleString('es-ES');
+            }
+            input.value = valor;
+        }
+
+        function enviarWhatsApp(participanteId) {
+            const participante = participantesData.find(p => p.id === participanteId);
+            
+            if (!participante) return;
+
+            let mensaje = `⚪🔴 *RIVER PLATE - Estado de Pagos*\n\n`;
+            mensaje += `Hola *${participante.nombre}*,\n\n`;
+            mensaje += `*EVENTO:* <%= evento.nombre %>\n`;
+            mensaje += `*ESTADO:* ${participante.estado.charAt(0).toUpperCase() + participante.estado.slice(1)}\n`;
+            mensaje += `*MONTO TOTAL:* $${participante.montoTotal.toLocaleString('es-AR')}\n`;
+            mensaje += `*MONTO PAGADO:* $${participante.montoPagado.toLocaleString('es-AR')}\n`;
+
+            if (participante.estado === 'pagado') {
+                mensaje += `\n✅ *¡Felicitaciones!* Has completado todos tus pagos.\n`;
+                mensaje += `Gracias por tu compromiso con el club más grande. ⭐\n`;
+            } else {
+                const montoPendiente = participante.montoTotal - participante.montoPagado;
+                mensaje += `\n*MONTO PENDIENTE:* $${montoPendiente.toLocaleString('es-AR')}\n`;
+                mensaje += `Te esperamos para completar tu pago.\n\n`;
+                mensaje += `*¡VAMOS RIVER!* ⚪🔴\n`;
+            }
+
+            if (participante.pagos && participante.pagos.length > 0) {
+                mensaje += `\n*HISTORIAL DE PAGOS:*\n`;
+                participante.pagos.forEach(pago => {
+                    const fecha = new Date(pago.fecha).toLocaleDateString('es-AR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    mensaje += `• ${fecha}: $${pago.monto.toLocaleString('es-AR')}\n`;
+                });
+            }
+
+            const mensajeCodificado = encodeURIComponent(mensaje);
+            window.open(`https://wa.me/${participante.telefono}?text=${mensajeCodificado}`, '_blank');
+        }
+
+        function eliminarMovimiento(eventoId, movimientoId) {
+            if (!confirm('¿Está seguro de eliminar este movimiento?')) {
+                return;
+            }
+
+            fetch(`/eventos/${eventoId}/movimientos/${movimientoId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error al eliminar el movimiento');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al eliminar el movimiento');
+            });
+        }
+
+        function agregarMovimiento(eventoId) {
+            const tipo = document.getElementById('tipoMovimiento').value;
+            const monto = parseFloat(document.getElementById('montoMovimiento').value);
+            const descripcion = document.getElementById('descripcionMovimiento').value;
+
+            if (!tipo || !monto || !descripcion) {
+                alert('Por favor complete todos los campos');
+                return;
+            }
+
+            fetch(`/eventos/${eventoId}/movimientos`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tipo,
+                    monto,
+                    descripcion
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error al agregar el movimiento');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al agregar el movimiento');
+            });
+        }
+
+        // Manejador para el formulario de nuevo participante
+        document.getElementById('formNuevoParticipante').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const usuarioId = document.getElementById('usuarioId').value;
+            const monto = document.getElementById('monto').value;
+            
+            console.log('Enviando datos:', { usuarioId, monto });
+            
+            fetch(`/eventos/participantes/agregar/<%= evento.id %>`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    usuarioId: usuarioId,
+                    monto: Number(monto)
+                })
+            })
+            .then(response => {
+                console.log('Respuesta del servidor:', response);
+                if (!response.ok) {
+                    throw new Error('Error al agregar participante');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Datos recibidos:', data);
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert('Error al agregar participante: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al agregar participante: ' + error.message);
+            });
+        });
+
+        function editarPago(pagoId) {
+            const participante = participantesData.find(p => p.pagos && p.pagos.some(pago => pago.id === pagoId));
+            if (!participante) return;
+
+            const pago = participante.pagos.find(p => p.id === pagoId);
+            if (!pago) return;
+
+            const form = document.getElementById('formEditarPago');
+            form.querySelector('#pagoId').value = pagoId;
+            form.querySelector('input[name="fecha"]').value = pago.fecha.split('T')[0];
+            form.querySelector('input[name="monto"]').value = pago.monto;
+            form.querySelector('textarea[name="observacion"]').value = pago.observacion || '';
+            form.querySelector('input[name="monto"]').dispatchEvent(new Event('input'));
+
+            editarPagoModal.show();
+        }
+
+        function eliminarPago(pagoId) {
+            if (confirm('¿Está seguro de eliminar este pago?')) {
+                fetch(`/eventos/pagos/eliminar/<%= evento.id %>/${pagoId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.message || 'Error al eliminar el pago');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        alert('Error al eliminar el pago: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al eliminar el pago: ' + error.message);
+                });
+            }
+        }
+
+        // Manejar el envío del formulario de edición de pago
+        document.getElementById('formEditarPago').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const pagoId = this.querySelector('#pagoId').value;
+            const montoInput = this.querySelector('input[name="monto"]');
+            const fechaInput = this.querySelector('input[name="fecha"]');
+            const observacionInput = this.querySelector('textarea[name="observacion"]');
+            
+            const datos = {
+                monto: Number(montoInput.value),
+                fecha: fechaInput.value || new Date().toISOString().split('T')[0],
+                observacion: observacionInput.value || ''
+            };
+            
+            fetch(`/eventos/pagos/editar/<%= evento.id %>/${pagoId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(datos)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || 'Error al editar el pago');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    editarPagoModal.hide();
+                    window.location.reload();
+                } else {
+                    alert('Error al editar el pago: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al editar el pago: ' + error.message);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,738 @@
+[
+  {
+    "id": "1744226191885",
+    "participantes": [
+      {
+        "id": "1744226258858",
+        "nombre": "Leandro",
+        "telefono": "3186396030",
+        "montoTotal": 10000,
+        "montoPagado": 40000,
+        "pagos": [
+          {
+            "id": "1744244338302",
+            "monto": 10000,
+            "fecha": "2025-04-10T00:18:58.302Z",
+            "observacion": "Mes de Enero "
+          },
+          {
+            "id": "1744244352508",
+            "monto": 10000,
+            "fecha": "2025-04-10T00:19:12.508Z",
+            "observacion": "Mes Marzo "
+          },
+          {
+            "id": "1744245469337",
+            "monto": 10000,
+            "fecha": "2025-04-10T00:37:49.337Z",
+            "observacion": "Mes de Abril "
+          },
+          {
+            "id": "1748439109931",
+            "fecha": "2025-05-15",
+            "monto": 10000,
+            "observacion": ""
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744243856392",
+        "nombre": "Fabio ",
+        "telefono": "3053984314",
+        "montoTotal": 10000,
+        "montoPagado": 30000,
+        "pagos": [
+          {
+            "id": "1746191543694",
+            "fecha": "2025-05-01",
+            "monto": 30000,
+            "observacion": "Paga Febrero, Marzo , Abrill"
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744244075620",
+        "nombre": "Latorre",
+        "telefono": "3058529126",
+        "montoTotal": 10000,
+        "montoPagado": 30000,
+        "pagos": [
+          {
+            "id": "1744245296880",
+            "monto": 30000,
+            "fecha": "2025-04-10T00:34:56.880Z",
+            "observacion": "Pago Febrero, Marzo Y Abril "
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744243946084",
+        "nombre": "Paola",
+        "telefono": "3146207044",
+        "montoTotal": 10000,
+        "montoPagado": 40000,
+        "pagos": [
+          {
+            "id": "1744299591772",
+            "monto": 10000,
+            "fecha": "2025-04-10T05:00:00.000Z",
+            "observacion": ""
+          },
+          {
+            "id": "1744299598726",
+            "monto": 10000,
+            "fecha": "2025-04-10T05:00:00.000Z",
+            "observacion": ""
+          },
+          {
+            "id": "1744935738067",
+            "fecha": "2025-04-17",
+            "monto": 10000,
+            "observacion": ""
+          },
+          {
+            "id": "1748439135451",
+            "fecha": "2025-05-15",
+            "monto": 10000,
+            "observacion": ""
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744243936023",
+        "nombre": "Julián ",
+        "telefono": "3007648973",
+        "montoTotal": 10000,
+        "montoPagado": 60000,
+        "pagos": [
+          {
+            "id": "1744293697953",
+            "monto": 30000,
+            "fecha": "2025-04-10T14:01:37.953Z",
+            "observacion": "Enero, Febrero, Marzo"
+          },
+          {
+            "id": "1744474630151",
+            "monto": 30000,
+            "fecha": "2025-04-12T05:00:00.000Z",
+            "observacion": "Pago Abril, Mayo,Junio"
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1748439679352",
+        "montoTotal": 10000,
+        "montoPagado": 20000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1748439781667",
+            "fecha": "2025-05-05",
+            "monto": 20000,
+            "observacion": "Pago Mayo Y Febrero"
+          }
+        ]
+      },
+      {
+        "id": "1748440281915",
+        "montoTotal": 10000,
+        "montoPagado": 20000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1748440459371",
+            "fecha": "2025-05-25",
+            "monto": 20000,
+            "observacion": "Pago Mayo , Y Febrero"
+          }
+        ]
+      }
+    ],
+    "nombre": "Mensualidad",
+    "fecha": "2025-01-01",
+    "valorTotal": "10000",
+    "descripcion": "",
+    "movimientos": [
+      {
+        "id": "1744936007512",
+        "tipo": "egreso",
+        "monto": 40000,
+        "fecha": "2025-04-08T00:00:00.000Z",
+        "descripcion": "Se Dio Para La Bandera"
+      }
+    ],
+    "pagos": [
+      {
+        "id": "1744725194994",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725196175",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725196964",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725197432",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725197796",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725198116",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725202759",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725203237",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725203605",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725204044",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725204524",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725205005",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725205421",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725205620",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725205797",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725206133",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744725209845",
+        "fecha": "2025-04-15",
+        "monto": 0,
+        "observacion": ""
+      },
+      {
+        "id": "1744729579190",
+        "fecha": "2025-04-15",
+        "monto": 15000,
+        "observacion": "sdassdasd"
+      },
+      {
+        "id": "1744729644567",
+        "fecha": "2025-04-15",
+        "monto": 10000,
+        "observacion": "asdfasdfsdf"
+      },
+      {
+        "id": "1744729873508",
+        "fecha": "2025-04-15",
+        "monto": 10000,
+        "observacion": "123"
+      }
+    ]
+  },
+  {
+    "id": "1744244245461",
+    "participantes": [
+      {
+        "id": "1744244075620",
+        "nombre": "Latorre",
+        "telefono": "3058529126",
+        "montoTotal": 36000,
+        "montoPagado": 36000,
+        "pagos": [
+          {
+            "id": "1744244989416",
+            "monto": 36000,
+            "fecha": "2025-04-10T00:29:49.416Z",
+            "observacion": "Pago 14 De Febrero"
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744226258858",
+        "nombre": "Leandro",
+        "telefono": "3186396030",
+        "montoTotal": 36000,
+        "montoPagado": 72000,
+        "pagos": [
+          {
+            "id": "1744293597148",
+            "monto": 72000,
+            "fecha": "2025-04-10T13:59:57.148Z",
+            "observacion": "La De El Y La Hija"
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744243946084",
+        "nombre": "Paola",
+        "telefono": "3146207044",
+        "montoTotal": 36000,
+        "montoPagado": 36000,
+        "pagos": [
+          {
+            "id": "1744293321302",
+            "monto": 36000,
+            "fecha": "2025-04-10T13:55:21.302Z",
+            "observacion": ""
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744293150111",
+        "nombre": "Alejandro",
+        "telefono": "3105120333",
+        "montoTotal": 36000,
+        "montoPagado": 36000,
+        "pagos": [
+          {
+            "id": "1744293443791",
+            "monto": 36000,
+            "fecha": "2025-04-10T13:57:23.791Z",
+            "observacion": "Compro Camisa"
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744754451975",
+        "montoTotal": 36000,
+        "montoPagado": 36000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744754524323",
+            "fecha": "2025-03-08",
+            "monto": 20000,
+            "observacion": ""
+          },
+          {
+            "id": "1744754541988",
+            "fecha": "2025-03-10",
+            "monto": 16000,
+            "observacion": ""
+          }
+        ]
+      },
+      {
+        "id": "1744243856392",
+        "montoTotal": 36000,
+        "montoPagado": 36000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744931427014",
+            "fecha": "2025-02-10",
+            "monto": 10000,
+            "observacion": "Abono 10000 Camisa"
+          },
+          {
+            "id": "1744933788661",
+            "fecha": "2025-02-15",
+            "monto": 26000,
+            "observacion": "Abono camisa"
+          }
+        ]
+      },
+      {
+        "id": "1744299656586",
+        "montoTotal": 36000,
+        "montoPagado": 36000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744933868380",
+            "fecha": "2025-03-16",
+            "monto": 36000,
+            "observacion": ""
+          }
+        ]
+      },
+      {
+        "id": "1744243936023",
+        "montoTotal": 36000,
+        "montoPagado": 72000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744934170420",
+            "fecha": "2025-04-17",
+            "monto": 72000,
+            "observacion": "Hermano Y El "
+          }
+        ]
+      },
+      {
+        "id": "1744300545625",
+        "montoTotal": 18000,
+        "montoPagado": 18000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744935824770",
+            "fecha": "2025-03-18",
+            "monto": 18000,
+            "observacion": "Abono Camisa"
+          }
+        ]
+      }
+    ],
+    "nombre": "Camisas ",
+    "fecha": "2025-01-01",
+    "valorTotal": "36000",
+    "descripcion": "",
+    "movimientos": [
+      {
+        "id": "1744934061595",
+        "tipo": "egreso",
+        "monto": 180000,
+        "fecha": "2025-02-17T00:00:00.000Z",
+        "descripcion": "Abono Camisa "
+      },
+      {
+        "id": "1744934124364",
+        "tipo": "egreso",
+        "monto": 180000,
+        "fecha": "2025-02-27T00:00:00.000Z",
+        "descripcion": "Pago Camisas"
+      }
+    ]
+  },
+  {
+    "id": "1744291879210",
+    "participantes": [
+      {
+        "id": "1744226258858",
+        "nombre": "Leandro",
+        "telefono": "3186396030",
+        "montoTotal": 7000,
+        "montoPagado": 25000,
+        "pagos": [
+          {
+            "id": "1744291991489",
+            "monto": 14000,
+            "fecha": "2025-04-10T13:33:11.489Z",
+            "observacion": "El De El Y La Hija"
+          },
+          {
+            "id": "1744292442789",
+            "monto": 11000,
+            "fecha": "2025-04-10T13:40:42.789Z",
+            "observacion": "Dio La Mitad Para Los Carnet De Los Chicos De Armenia"
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744243936023",
+        "nombre": "Julián ",
+        "telefono": "3007648973",
+        "montoTotal": 7000,
+        "montoPagado": 18000,
+        "pagos": [
+          {
+            "id": "1744292370122",
+            "monto": 18000,
+            "fecha": "2025-04-10T13:39:30.122Z",
+            "observacion": "El Carnet De El Y El Carnet Y La Mitad De Los Chicos De Armenia "
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744292067894",
+        "nombre": "Hector",
+        "telefono": "3196365120",
+        "montoTotal": 7000,
+        "montoPagado": 7000,
+        "pagos": [
+          {
+            "id": "1744292600402",
+            "monto": 7000,
+            "fecha": "2025-04-10T13:43:20.402Z",
+            "observacion": ""
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744243856392",
+        "montoTotal": 7000,
+        "montoPagado": 12000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744930734832",
+            "fecha": "2025-02-06",
+            "monto": 6000,
+            "observacion": "Pago 7000 - Quedaron 1000"
+          },
+          {
+            "id": "1744931318174",
+            "fecha": "2025-02-10",
+            "monto": 6000,
+            "observacion": "Carnet De Matias"
+          }
+        ]
+      },
+      {
+        "id": "1744299656586",
+        "montoTotal": 6000,
+        "montoPagado": 6000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744932404445",
+            "fecha": "2025-02-06",
+            "monto": 6000,
+            "observacion": ""
+          }
+        ]
+      },
+      {
+        "id": "1744931678188",
+        "montoTotal": 6000,
+        "montoPagado": 6000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744932447678",
+            "fecha": "2025-02-08",
+            "monto": 6000,
+            "observacion": ""
+          }
+        ]
+      },
+      {
+        "id": "1744931494585",
+        "montoTotal": 6000,
+        "montoPagado": 6000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744932465660",
+            "fecha": "2025-02-08",
+            "monto": 6000,
+            "observacion": ""
+          }
+        ]
+      },
+      {
+        "id": "1744243946084",
+        "montoTotal": 6000,
+        "montoPagado": 6000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744932608061",
+            "fecha": "2025-02-10",
+            "monto": 6000,
+            "observacion": ""
+          }
+        ]
+      }
+    ],
+    "nombre": "Carnet",
+    "fecha": "2025-02-01",
+    "valorTotal": "7000",
+    "descripcion": "No Lo Dejaron A 6000",
+    "movimientos": [
+      {
+        "id": "1744931054492",
+        "tipo": "egreso",
+        "monto": 42000,
+        "fecha": "2025-02-06T00:00:00.000Z",
+        "descripcion": "Se Pago Los Carnet De Fabio, Hija De Leo , Leo , Julian , Hector  , Yeik, Yo "
+      },
+      {
+        "id": "1744931833613",
+        "tipo": "egreso",
+        "monto": 24000,
+        "fecha": "2025-02-10T00:00:00.000Z",
+        "descripcion": ""
+      },
+      {
+        "id": "1744933548804",
+        "tipo": "egreso",
+        "monto": 12000,
+        "fecha": "2025-03-11T00:00:00.000Z",
+        "descripcion": ""
+      }
+    ]
+  },
+  {
+    "id": "1744474845885",
+    "participantes": [
+      {
+        "id": "1744293150111",
+        "nombre": "Alejandro",
+        "telefono": "3105120333",
+        "montoTotal": 5000,
+        "montoPagado": 5000,
+        "pagos": [
+          {
+            "id": "1744477740076",
+            "monto": 5000,
+            "fecha": "2025-04-12T05:00:00.000Z",
+            "observacion": ""
+          }
+        ],
+        "estado": "pagado"
+      },
+      {
+        "id": "1744754451975",
+        "montoTotal": 5000,
+        "montoPagado": 5000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1744936041154",
+            "fecha": "2025-04-08",
+            "monto": 5000,
+            "observacion": ""
+          }
+        ]
+      }
+    ],
+    "nombre": "Bandera",
+    "fecha": "2025-04-09",
+    "valorTotal": "10000",
+    "descripcion": "Cualquier Valor ",
+    "movimientos": []
+  },
+  {
+    "id": "1746029816441",
+    "nombre": "Rifa Camisa ",
+    "fecha": "2025-04-30",
+    "valorTotal": 7000,
+    "descripcion": "",
+    "participantes": [
+      {
+        "id": "1744300545625",
+        "montoTotal": 7000,
+        "montoPagado": 7000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1746031019349",
+            "fecha": "2025-04-30",
+            "monto": 7000,
+            "observacion": "Hizo La Tranferencia  A Nequi "
+          }
+        ]
+      },
+      {
+        "id": "1744246282087",
+        "montoTotal": 7000,
+        "montoPagado": 0,
+        "estado": "pendiente",
+        "pagos": []
+      },
+      {
+        "id": "1748535365436",
+        "montoTotal": 7000,
+        "montoPagado": 14000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1748618786565",
+            "fecha": "2025-05-05",
+            "monto": 14000,
+            "observacion": "Pago Rifa Boletas"
+          }
+        ]
+      },
+      {
+        "id": "1744931678188",
+        "montoTotal": 7000,
+        "montoPagado": 7000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1748618843202",
+            "fecha": "2025-05-05",
+            "monto": 7000,
+            "observacion": "Pago Rifa Boleta"
+          }
+        ]
+      },
+      {
+        "id": "1748535467136",
+        "montoTotal": 7000,
+        "montoPagado": 7000,
+        "estado": "pagado",
+        "pagos": [
+          {
+            "id": "1748618928189",
+            "fecha": "2025-05-05",
+            "monto": 7000,
+            "observacion": "Pago Rifa Boleta"
+          }
+        ]
+      }
+    ],
+    "movimientos": []
+  }
+]
